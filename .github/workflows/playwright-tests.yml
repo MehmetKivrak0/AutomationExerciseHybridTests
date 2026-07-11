@@ -26,11 +26,8 @@ jobs:
     - name: Build project
       run: dotnet build AutomationExerciseHybridTests/AutomationExerciseHybridTests.csproj --no-restore
 
-    - name: Install Playwright CLI
-      run: dotnet tool install --global Microsoft.Playwright.CLI
-
     - name: Install Playwright Browsers
-      run: playwright install --with-deps
+      run: pwsh AutomationExerciseHybridTests/bin/Debug/net8.0/playwright.ps1 install --with-deps
 
     - name: Run Tests
       run: dotnet test AutomationExerciseHybridTests/AutomationExerciseHybridTests.csproj --no-build --verbosity normal
