@@ -1,0 +1,46 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore AutomationExerciseHybridTests/AutomationExerciseHybridTests.csproj
+
+    - name: Build project
+      run: dotnet build AutomationExerciseHybridTests/AutomationExerciseHybridTests.csproj --no-restore
+
+    - name: Install Playwright CLI
+      run: dotnet tool install --global Microsoft.Playwright.CLI
+
+    - name: Install Playwright Browsers
+      run: playwright install --with-deps
+
+    - name: Run Tests
+      run: dotnet test AutomationExerciseHybridTests/AutomationExerciseHybridTests.csproj --no-build --verbosity normal
+      env:
+        CI: true
+
+    - name: Upload Test Results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: AutomationExerciseHybridTests/TestResults/
+        retention-days: 7
