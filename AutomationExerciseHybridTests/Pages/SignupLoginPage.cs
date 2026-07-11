@@ -23,5 +23,12 @@ namespace AutomationExerciseHybridTests.Pages
         {
             return await _page.InnerTextAsync("p[style*='color: red']");
         }
+
+        public async Task<SignupPage> GoToSignupFormAsync(string name, string email)
+        {
+            await _page.FillAsync("input[data-qa='signup-name']", name);
+            await _page.FillAsync("input[data-qa='signup-email']", email);
+            return new SignupPage(_page);
+        }
     }
 }
