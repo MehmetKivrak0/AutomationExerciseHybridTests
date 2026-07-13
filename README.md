@@ -83,5 +83,19 @@ Ortam bilgileri ve temel URL'ler `appsettings.json` dosyasında tutulur:
 ```
 Testler sırasında `ConfigReader` sınıfı üzerinden bu URL'lere erişilir, böylece farklı ortamlar (test, stage, prod) için değişiklik yapmak kolaylaşır.
 
+## 🚀 CI/CD Pipeline (GitHub Actions)
+
+Projeye ait sürekli entegrasyon (CI) süreçleri **GitHub Actions** ile otomatikleştirilmiştir.
+
+- **Tetikleyici (Trigger):** `master` branch'ine yapılan her `push` ve `pull_request` işlemi pipeline'ı otomatik olarak başlatır.
+- **İşlemler:** 
+  - Ubuntu makine üzerinde `.NET 8.0` ortamı kurulur.
+  - Proje bağımlılıkları (`dotnet restore`) yüklenir.
+  - Proje derlenir (`dotnet build`).
+  - Playwright tarayıcıları (`chromium`) kurulur.
+  - UI ve API Testleri (`dotnet test`) otomatik olarak koşulur.
+
+İlgili workflow konfigürasyonuna `.github/workflows/tests.yml` dosyasından ulaşabilirsiniz.
+
 ## ✨ Katkıda Bulunma
 Yeni bir özellik veya test eklemek isterseniz, lütfen uygun POM (Page Object Model) kurallarına ve projede yer alan mevcut kodlama standartlarına sadık kalın. API testlerinde RestSharp standartlarını takip edin.
